@@ -1,4 +1,3 @@
-
 import gradio as gr
 import whisper
 from openai import OpenAI
@@ -9,7 +8,6 @@ import time
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 whisper_model = whisper.load_model("tiny")
 
-# Dil seçenekleri (belirtilen sırayla)
 LANGUAGES = ["Turkish", "Arabic", "Kurdish", "Japanese", "English"]
 LANG_CODES = {
     "Turkish": "tr",
@@ -19,7 +17,6 @@ LANG_CODES = {
     "English": "en"
 }
 
-# Çok dilli prompt şablonları
 SUMMARY_PROMPTS = {
     "Turkish": "Lütfen aşağıdaki metni açık ve öz bir şekilde özetle:\n\n{text}",
     "Arabic": "يرجى تلخيص النص التالي بطريقة واضحة وموجزة:\n\n{text}",
@@ -27,8 +24,6 @@ SUMMARY_PROMPTS = {
     "Japanese": "以下の文章を簡潔に要約してください：\n\n{text}",
     "English": "Please summarize the following text clearly and briefly:\n\n{text}"
 }
-
-
 QUIZ_PROMPTS = {
     "Turkish": "Aşağıdaki özetten yola çıkarak 2 adet çoktan seçmeli soru üret (her biri 4 şıklı):\n\n{text}",
     "Arabic": "استنادًا إلى الملخص التالي، أنشئ سؤالين من نوع الاختيار من متعدد (لكل منهما 4 خيارات):\n\n{text}",
@@ -83,16 +78,25 @@ def generate_quiz(summary, lang):
     print(f"⏱️ Quiz generation time: {time.time() - start:.2f}s")
     return response.choices[0].message.content.strip()
 
-with gr.Blocks() as demo:
-    gr.Markdown("# 🧠 Multilingual Audio Summarizer + Quiz Generator")
-    
-    with gr.Row():
-        audio_input = gr.Audio(type="filepath", label="🎙️ Upload audio")
-        summary_lang = gr.Dropdown(choices=LANGUAGES, value="Turkish", label="🌐 Output Language")
+custom_css = """
+.audio-col {width: 320px !important;}
+.lang-col {width: 200px !important; margin-left: 16px;}
+.trans-box, .sum-box, .quiz-box {min-height: 60px; max-height: 210px; font-size: 1rem;}
+#output_row .gr-box {margin-bottom: 10px;}
+"""
 
-    transcribed_text = gr.Textbox(label="📄 Transcription", lines=5)
-    summary_output = gr.Textbox(label="✂️ Summary", lines=5)
-    quiz_output = gr.Textbox(label="📘 Quiz", lines=8)
+with gr.Blocks(css=custom_css) as demo:
+    gr.Markdown("# 🧠 Multilingual Audio Summarizer + Quiz Generator")
+
+    with gr.Row():
+        with gr.Column(elem_classes="audio-col"):
+            audio_input = gr.Audio(type="filepath", label="🎙️ Upload audio")
+        with gr.Column(elem_classes="lang-col"):
+            summary_lang = gr.Dropdown(choices=LANGUAGES, value="Turkish", label="🌐 Output Language")
+    with gr.Row(elem_id="output_row"):
+        transcribed_text = gr.Textbox(label="📄 Transcription", lines=7, elem_classes="trans-box")
+        summary_output = gr.Textbox(label="✂️ Summary", lines=7, elem_classes="sum-box")
+        quiz_output = gr.Textbox(label="📘 Quiz", lines=7, elem_classes="quiz-box")
 
     with gr.Row():
         transcribe_btn = gr.Button("🎧 Transcribe")
@@ -104,4 +108,3 @@ with gr.Blocks() as demo:
     quiz_btn.click(fn=generate_quiz, inputs=[summary_output, summary_lang], outputs=quiz_output)
 
 demo.launch()
-
