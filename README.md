@@ -26,6 +26,7 @@ It’s perfect for summarizing lectures, meetings, interviews, or podcasts in *a
 - **Auto-Translation:** Transcribes in the spoken language, summarizes in your preferred language
 - **Modular Workflow:** Each step (transcribe, summarize, quiz) is separate for flexible use
 
+<img src="demo_screenshot.png" alt="App Screenshot" width="600"/>
 ---
 
 ## 📝 How To Use
