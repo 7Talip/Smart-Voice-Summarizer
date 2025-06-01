@@ -50,6 +50,6 @@ It’s perfect for summarizing lectures, meetings, interviews, or podcasts in *a
 ## 🛠️ Installation
 
 ```bash
-git clone https://github.com/7Talip/smart-voice-summarizer.git
+git clone https://github.com/7Talip/Smart-Voice-Summarizer/blob/main/README.md
 cd smart-voice-summarizer
 pip install -r requirements.txt
