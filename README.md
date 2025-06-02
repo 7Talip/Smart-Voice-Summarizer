@@ -1,4 +1,5 @@
 # 🎙️ Smart Voice Summarizer
+# 🧠 Multilingual Audio Summarizer + Quiz Generator
 
 **Live Demo:** [Try it on Hugging Face Spaces](https://huggingface.co/spaces/Talip7/smart_voice_Summarizer)  
 **Author:** [Talip7](https://huggingface.co/Talip7)
